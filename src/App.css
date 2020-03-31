@@ -1,0 +1,36 @@
+
+body {
+  font-family: 'ApexNew';
+  font-variant-numeric: lining-nums;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+label {
+  font-family: 'ApexNew';
+  font-weight: 500;
+  text-align: start;
+  font-size: 18px;
+  line-height: 1em;
+}
+
+p {
+  font-family: 'ApexNew';
+  font-size: 16px;
+}
+ 
+input {
+  width: 80vw;
+  padding: 16px;
+  font-size: 16px;
+  line-height: 1em;
+  border: 1px solid black;
+}

@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nux-admin
+  namespace: marianne-playground
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+    - host: nux-admin.e74c370edf4345d39982.westeurope.aksapp.io
+      http:
+        paths:
+          - backend:
+              serviceName: nux-admin
+              servicePort: 7070
+            path: /

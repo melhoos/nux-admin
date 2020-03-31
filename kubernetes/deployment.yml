@@ -1,0 +1,23 @@
+  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nux-admin
+  namespace: marianne-playground
+  labels:
+    application: nux-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: nux-admin
+  template:
+    metadata:
+      labels:
+        application: nux-admin
+    spec:
+      containers:
+        - name: nux
+          image: itetechmadacr.azurecr.io/nux-admin:latest
+          ports:
+            - containerPort: 70

@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'ApexNew';
+  font-style: 'normal';
+  font-weight: 400;
+  src:
+    local('ApexNew-Book'),
+    url('./assets/fonts/ApexNew-Book.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'ApexNew';
+  font-style: 'normal';
+  font-weight: 700;
+  src:
+    local('ApexNew-Bold'),
+    url('./assets/fonts/ApexNew-Bold.otf') format('opentype');
+}
+
+body {
+  margin: 0;
+  font-family: 'ApexNew', 'Arial', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
