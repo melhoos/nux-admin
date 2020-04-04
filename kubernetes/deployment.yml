@@ -20,4 +20,4 @@ spec:
         - name: nux
           image: itetechmadacr.azurecr.io/nux-admin:latest
           ports:
-            - containerPort: 70
+            - containerPort: 80

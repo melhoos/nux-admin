@@ -3,6 +3,13 @@ import Buzzword from '../../interfaces/buzzword';
 import { Service } from '../../services/dataService';
 import { apiUrl } from '../../constants/urls';
 
+const bodyData = (bw: Buzzword) => { 
+    return {
+        Title: bw.Title,
+        Description: bw.Description
+    }
+}
+
 const BuzzwordService = () => {
     const [buzzwords, setBuzzwords] = useState<Service<Buzzword[]>>({
         status: 'loading'
@@ -33,39 +40,49 @@ export async function postData(title: String, description: String) {
     })
     res
         .json()
-        .then(response => ({status: 'loaded', payload: response}) )
+        .then(response => {
+            window.location.reload();
+            return {status: 'loaded', payload: response}
+        } )
         .catch(error => ({status: "error", error}))
     return res
 }
 
 export async function putData(bw: Buzzword) {
+
     const res = await fetch(`${apiUrl}/buzzword/${bw.Id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            Title: bw.Title,
-            Description: bw.Description
-        })
+        body: JSON.stringify(bodyData(bw))
     })
     res
         .json()
-        .then(response => ({status: 'loaded', payload: response}) )
-        .catch(error => ({status: "error", error}))
+        .then(response => {
+            window.location.reload();
+            return {status: 'loaded', payload: response}
+        })
+        .catch(error => {
+            console.error("error: ", error);
+        })
     return res
 }
 
 export async function deleteData(id: number) {
     const res = await fetch(`${apiUrl}/buzzword/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        method: 'DELETE'
     })
     res
         .json()
-        .then(response => ({status: 'loaded', payload: response}) )
-        .catch(error => ({status: "error", error}))
+        .then(response => {
+            window.location.reload();
+            console.log("response: ", response)
+        })
+        .catch(error => {
+            console.error("error: ", error);
+            window.location.reload();
+            return {status: "error", error}
+        })
     return res
 }

@@ -18,7 +18,6 @@ const onDelete = (bw: Buzzword) => {
     const res = window.confirm(`Er du sikker på at du vil slette ${bw.Title}?`);
     if (res) { // user pressed Ok
         deleteBw(bw);
-        window.location.reload();
     } else {} //  user pressed cancel
 }
 
