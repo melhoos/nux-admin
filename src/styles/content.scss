@@ -16,14 +16,43 @@
         background-color: transparent;
         text-align: start;
         border: none;
+        .data-icon {
+            margin-right: 1vw;
+        }
         .data-content {
             margin-bottom: 0;
             width: -webkit-fill-available;
-            input:first-of-type {
+            input, textarea {
                 margin-bottom: 1vh;
+            }
+            :last-child {
+                margin-bottom: 0;
             }
             .close-btn {
                 float: right;
+            }
+            p {
+                margin-bottom: 0.5rem;
+            }
+            p:last-of-type {
+                margin-bottom: 0;
+            }
+            .date-form {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 1vh;
+                .date-form-item {
+                    display: flex;
+                    align-items: center;
+                    label {
+                        margin: 0 1vw 0 0;
+                    }
+                    input {
+                        width: fit-content;
+                    }
+
+                }
+
             }
         }
         .data-btns {

@@ -1,5 +1,6 @@
 enum PageType {
-    Buzzwords
+    Buzzwords,
+    Conferences
 }
 
 interface Page {
@@ -13,6 +14,11 @@ const Pages: Page[] = [
         type: PageType.Buzzwords,
         url: "/buzzwords",
         name: "Faguttrykk"
+    },
+    {
+        type: PageType.Conferences,
+        url: "/conferences",
+        name: "Konferanser"
     },
 
 ]

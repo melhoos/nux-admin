@@ -19,29 +19,23 @@ const emptyBuzzWord: Buzzword = {
 }
 
 function areFieldsEmpty (bw: Buzzword) : boolean {
-    return (bw.Title.length === 0 && bw.Description.length === 0)
+    return (bw.Title.length === 0 || bw.Description.length === 0)
 }
 
 const BuzzwordForm = ({buzzword = emptyBuzzWord, onClose}: Props) => {
     const [editedBW, setEditedBW] = useState(buzzword)
     const isEmpty = buzzword === emptyBuzzWord
     
-    const onChangeTitle = (e: React.ChangeEvent<HTMLSelectElement>) => { 
-        const newTitle = e.target.value;
-        const updated = {...editedBW, Title: newTitle}
-        setEditedBW(updated)
-    }
-
-    const onChangeDesc = (e: React.ChangeEvent<HTMLSelectElement>) => { 
-        const newDesc = e.target.value;
-        const updated = {...editedBW, Description: newDesc}
+    const onChange = (e: React.ChangeEvent<HTMLSelectElement>, label: string) => { 
+        const newValue = e.target.value;
+        let updated = {...editedBW, [label]: newValue};
         setEditedBW(updated)
     }
 
     const onSave = (e: React.MouseEvent<HTMLElement> ) => {
         e.preventDefault();
         if (isEmpty) { // post
-            postBuzzword(editedBW.Title, editedBW.Description).then((resp) => { reloadOnSuccess(resp) })
+            postBuzzword(editedBW).then((resp) => { reloadOnSuccess(resp) })
         } else { // update
             putBuzzword(editedBW).then((resp) => { reloadOnSuccess(resp) })
         }
@@ -50,8 +44,8 @@ const BuzzwordForm = ({buzzword = emptyBuzzWord, onClose}: Props) => {
     return (
         <Form>
             <Form.Group>
-                <Form.Control type="text" placeholder="Title" value={editedBW.Title} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onChangeTitle(e)}/>
-                <Form.Control type="text" placeholder="Description" value={editedBW.Description} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onChangeDesc(e)} />
+                <Form.Control type="text" as="input" placeholder="Title*" value={editedBW.Title} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onChange(e, "Title")}/>
+                <Form.Control type="text" as="textarea" placeholder="Description*" value={editedBW.Description} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onChange(e, "Description")} />
             </Form.Group>
             <Button variant="outline-primary" type="submit" onClick={(e: React.MouseEvent<HTMLElement> ) => onSave(e)} title="Lagre" disabled={areFieldsEmpty(editedBW)}> 
                 <FontAwesomeIcon icon={faSave} />

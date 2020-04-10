@@ -2,6 +2,13 @@ import Buzzword from '../../interfaces/buzzword';
 import {Service, ConnectionStatus} from '../../utility/service';
 import {apiUrl} from '../../utility/urls';
 
+const buzzwordBody = (bw: Buzzword) => {
+    return {
+        Title: bw.Title,
+        Description: bw.Description
+    }
+}
+
 export async function getBuzzwords(): Promise<Service<Buzzword[]>> {
     return await fetch(`${apiUrl}/buzzwords`)
         .then((response: Response) => {
@@ -18,16 +25,13 @@ export async function getBuzzwords(): Promise<Service<Buzzword[]>> {
         })
 }
 
-export async function postBuzzword(title: String, description: String): Promise<Service<Buzzword[]>> {
+export async function postBuzzword(bw: Buzzword): Promise<Service<Buzzword[]>> {
     return await fetch(`${apiUrl}/buzzword`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                Title: title,
-                Description: description
-            })
+            body: JSON.stringify(buzzwordBody(bw))
         })
         .then((response: Response) => {
             if (response.ok) return response.json()
@@ -49,10 +53,7 @@ export async function putBuzzword(bw: Buzzword): Promise<Service<Buzzword[]>> {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                Title: bw.Title,
-                Description: bw.Description
-            })
+            body: JSON.stringify(buzzwordBody(bw))
         })
         .then((response: Response) => {
             if (response.ok) return response.json()

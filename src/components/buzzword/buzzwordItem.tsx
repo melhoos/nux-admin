@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Buzzword from '../../interfaces/buzzword';
 import BuzzwordForm from './buzzwordForm';
 import {deleteBuzzword} from './buzzwordService';
-import {faPencilAlt, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+import {faPencilAlt, faTrashAlt, faAlignJustify} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {reloadOnSuccess} from '../../utility/serviceHelpers';
 
@@ -39,7 +39,7 @@ const BuzzwordItem = (props: Props) => {
         return (
             <>
                 <h2>{buzzword.Title}</h2>
-                <p className="data-content">{buzzword.Description}</p>
+                <p> <FontAwesomeIcon className="data-icon" icon={faAlignJustify} /> {buzzword.Description}</p>
             </>
         )
     }
