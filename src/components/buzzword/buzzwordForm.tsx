@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import Buzzword from '../../interfaces/buzzword';
 import Form from 'react-bootstrap/Form';
-import {postData, putData} from './buzzwordService';
+import Button from 'react-bootstrap/Button';
+import Buzzword from '../../interfaces/buzzword';
+import {putBuzzword, postBuzzword} from './buzzwordService';
+import {reloadOnSuccess} from '../../utility/serviceHelpers';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSave, faTimes} from '@fortawesome/free-solid-svg-icons';
-import Button from 'react-bootstrap/Button';
 
 interface Props {
     buzzword?: Buzzword,
@@ -18,7 +19,7 @@ const emptyBuzzWord: Buzzword = {
 }
 
 function areFieldsEmpty (bw: Buzzword) : boolean {
-    return (bw.Title.length === 0 || bw.Description.length === 0)
+    return (bw.Title.length === 0 && bw.Description.length === 0)
 }
 
 const BuzzwordForm = ({buzzword = emptyBuzzWord, onClose}: Props) => {
@@ -40,9 +41,9 @@ const BuzzwordForm = ({buzzword = emptyBuzzWord, onClose}: Props) => {
     const onSave = (e: React.MouseEvent<HTMLElement> ) => {
         e.preventDefault();
         if (isEmpty) { // post
-            postData(editedBW.Title, editedBW.Description)
+            postBuzzword(editedBW.Title, editedBW.Description).then((resp) => { reloadOnSuccess(resp) })
         } else { // update
-            putData(editedBW)
+            putBuzzword(editedBW).then((resp) => { reloadOnSuccess(resp) })
         }
     }
 

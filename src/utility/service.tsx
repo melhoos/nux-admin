@@ -1,19 +1,27 @@
 //https://dev.to/camilomejia/fetch-data-with-react-hooks-and-typescript-390c
+
+export enum ConnectionStatus {
+  INIT = 'Init',
+  LOADING = 'Loading',
+  SUCCESS = 'Success',
+  ERROR = 'Error'
+}
+
 interface ServiceInit {
-  status: 'init';
+  status: ConnectionStatus.INIT;
 }
 
 interface ServiceLoading {
-  status: 'loading';
+  status: ConnectionStatus.LOADING;
 }
 
 interface ServiceLoaded<T> {
-  status: 'loaded';
+  status: ConnectionStatus.SUCCESS;
   payload: T;
 }
 
 interface ServiceError {
-  status: 'error';
+  status: ConnectionStatus.ERROR;
   error: Error;
 }
 

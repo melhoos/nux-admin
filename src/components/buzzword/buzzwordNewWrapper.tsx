@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-
 const BuzzwordNewWrapper = () => {
     const [showNewForm, setShowNewForm] = useState(false)
 

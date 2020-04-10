@@ -27,7 +27,10 @@
             }
         }
         .data-btns {
-            min-width: 85px;
+            display: flex;
+            justify-content: space-between;
+            height: fit-content;
+            min-width: 90px;
         }
     }
 

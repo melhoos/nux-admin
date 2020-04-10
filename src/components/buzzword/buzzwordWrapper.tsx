@@ -1,24 +1,27 @@
-import React from 'react';
-import BuzzwordService from './buzzwordService';
+import React, {useState, useEffect} from 'react';
+import {getBuzzwords} from './buzzwordService';
 import BuzzwordContent from './buzzwordContent';
+import Buzzword from '../../interfaces/buzzword';
+import {Service, ConnectionStatus} from '../../utility/service';
+import {onLoading, onError, onNotFound} from '../shared/serviceResponses';
 
-const loading = () => {
-    return (<div className="loading"> Loading .. </div>)
-}
-
-const error = () => {
-    return (<div className="error">Errror!</div>)
+const onSuccess = (bws: Buzzword[]) => {
+    return bws.length > 0 ? <BuzzwordContent buzzwords={bws}/> : onNotFound();
 }
 
 const BuzzwordWrapper = () => {
-    const bs = BuzzwordService();
-
+    const [buzzwords, setBuzzwords] = useState<Service<Buzzword[]>>({status: ConnectionStatus.LOADING})
+    
+    useEffect(() => {
+        getBuzzwords().then((bw) => setBuzzwords(bw))
+    },[])
+    
     return (
         <>
-            <h1>Buzzwords</h1>
-            {bs.status === 'loading' && loading()}
-            {bs.status === 'loaded' && <BuzzwordContent buzzwords={bs.payload}/>} 
-            {bs.status === 'error' && error()}
+            <h1>Faguttrykk</h1>
+            {buzzwords.status === ConnectionStatus.LOADING && onLoading()}
+            {buzzwords.status === ConnectionStatus.SUCCESS && onSuccess(buzzwords.payload)} 
+            {buzzwords.status === ConnectionStatus.ERROR && onError()}
         </>
     )
 }

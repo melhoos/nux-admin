@@ -1,88 +1,87 @@
-import {useState, useEffect} from 'react';
 import Buzzword from '../../interfaces/buzzword';
-import { Service } from '../../services/dataService';
-import { apiUrl } from '../../constants/urls';
+import {Service, ConnectionStatus} from '../../utility/service';
+import {apiUrl} from '../../utility/urls';
 
-const bodyData = (bw: Buzzword) => { 
-    return {
-        Title: bw.Title,
-        Description: bw.Description
-    }
+export async function getBuzzwords(): Promise<Service<Buzzword[]>> {
+    return await fetch(`${apiUrl}/buzzwords`)
+        .then((response: Response) => {
+            if (response.ok) return response.json()
+            else throw new Error(`Error: ${response.statusText}`)
+        })
+        .then((response: Buzzword[]) => {
+            const result: Service<Buzzword[]> = {status: ConnectionStatus.SUCCESS, payload: response}
+            return result
+        })
+        .catch((error: Error) => {
+            const errorResult: Service<Buzzword[]> = {status: ConnectionStatus.ERROR, error}
+            return errorResult
+        })
 }
 
-const BuzzwordService = () => {
-    const [buzzwords, setBuzzwords] = useState<Service<Buzzword[]>>({
-        status: 'loading'
-    })
-
-    useEffect(() => {
-        fetch(`${apiUrl}/buzzwords`)
-            .then(response => response.json())
-            .then(response => setBuzzwords({status: 'loaded', payload: response}))
-            .catch(error => setBuzzwords({status: "error", error}))
-    }, [])
-
-    return buzzwords
+export async function postBuzzword(title: String, description: String): Promise<Service<Buzzword[]>> {
+    return await fetch(`${apiUrl}/buzzword`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Title: title,
+                Description: description
+            })
+        })
+        .then((response: Response) => {
+            if (response.ok) return response.json()
+            else throw new Error(`Error: ${response.statusText}`)
+        })
+        .then((response: Buzzword[]) => {
+            const result: Service<Buzzword[]> = {status: ConnectionStatus.SUCCESS, payload: response}
+            return result
+        })
+        .catch((error: Error) => {
+            const errorResult: Service<Buzzword[]> = {status: ConnectionStatus.ERROR, error}
+            return errorResult
+        })
 }
 
-export default BuzzwordService
-
-export async function postData(title: String, description: String) {
-    const res = await fetch(`${apiUrl}/buzzword`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            Title: title,
-            Description: description
+export async function putBuzzword(bw: Buzzword): Promise<Service<Buzzword[]>> {
+    return await fetch(`${apiUrl}/buzzword/${bw.Id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Title: bw.Title,
+                Description: bw.Description
+            })
         })
-    })
-    res
-        .json()
-        .then(response => {
-            window.location.reload();
-            return {status: 'loaded', payload: response}
-        } )
-        .catch(error => ({status: "error", error}))
-    return res
+        .then((response: Response) => {
+            if (response.ok) return response.json()
+            else throw new Error(`Error: ${response.statusText}`)
+        })
+        .then((response: Buzzword[]) => {
+            const result: Service<Buzzword[]> = {status: ConnectionStatus.SUCCESS, payload: response}
+            return result
+        })
+        .catch((error: Error) => {
+            const errorResult: Service<Buzzword[]> = {status: ConnectionStatus.ERROR, error}
+            return errorResult
+        })
 }
 
-export async function putData(bw: Buzzword) {
-
-    const res = await fetch(`${apiUrl}/buzzword/${bw.Id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(bodyData(bw))
-    })
-    res
-        .json()
-        .then(response => {
-            window.location.reload();
-            return {status: 'loaded', payload: response}
+export async function deleteBuzzword(id: number): Promise<Service<Buzzword[]>> {
+    return await fetch(`${apiUrl}/buzzword/${id}`, {
+            method: 'DELETE'
         })
-        .catch(error => {
-            console.error("error: ", error);
+        .then((response: Response) => {
+            if (response.ok) return response.json()
+            else throw new Error(`Error: ${response.statusText}`)
         })
-    return res
-}
-
-export async function deleteData(id: number) {
-    const res = await fetch(`${apiUrl}/buzzword/${id}`, {
-        method: 'DELETE'
-    })
-    res
-        .json()
-        .then(response => {
-            window.location.reload();
-            console.log("response: ", response)
+        .then((response: Buzzword[]) => {
+            const result: Service<Buzzword[]> = {status: ConnectionStatus.SUCCESS, payload: response}
+            return result
         })
-        .catch(error => {
-            console.error("error: ", error);
-            window.location.reload();
-            return {status: "error", error}
+        .catch((error: Error) => {
+            const errorResult: Service<Buzzword[]> = {status: ConnectionStatus.ERROR, error}
+            return errorResult
         })
-    return res
 }

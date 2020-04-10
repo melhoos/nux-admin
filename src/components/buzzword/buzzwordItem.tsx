@@ -2,22 +2,19 @@ import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Buzzword from '../../interfaces/buzzword';
 import BuzzwordForm from './buzzwordForm';
-import {deleteData} from './buzzwordService';
+import {deleteBuzzword} from './buzzwordService';
 import {faPencilAlt, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {reloadOnSuccess} from '../../utility/serviceHelpers';
 
 interface Props {
     buzzword: Buzzword
 }
 
-const deleteBw = (bw: Buzzword) => {
-    deleteData(bw.Id);
-}
-
 const onDelete = (bw: Buzzword) => {
     const res = window.confirm(`Er du sikker på at du vil slette ${bw.Title}?`);
     if (res) { // user pressed Ok
-        deleteBw(bw);
+        deleteBuzzword(bw.Id).then((resp => { reloadOnSuccess(resp) }))
     } else {} //  user pressed cancel
 }
 
